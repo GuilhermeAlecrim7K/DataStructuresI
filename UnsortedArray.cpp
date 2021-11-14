@@ -1,76 +1,79 @@
-#include <iostream>
 #ifdef _WIN32
 #include <Windows.h>
 #else
 #include <unistd.h>
 #endif
+#include <iostream>
 #include <stdlib.h>
 using namespace std;
 
 struct Dados{
   int Id;
-  string Nome;
+  int Info;
 };
 
-struct Dados Lista[12];
-int n = 0, m = 10;
-enum ErrorTypes {NotFound, RegistroJaExiste, ListaCheia, ListaVazia};
+struct Dados Lista[7];
+int n = 0, m = 5;
+enum OpConclusions {NotFound, RegistroJaExiste, ListaCheia, ListaVazia, Success};
 const string headerline = "=============================";
-const string OpSuccess = "Operação realizada com sucesso.";
 
-void ReportError(ErrorTypes Erro){
-  switch (Erro){
-    case RegistroJaExiste:
-      cout << "Já existe um registro com essa Id. Tente novamente." << endl;
-      break;
+string ReportConclusion(OpConclusions Conclusion){
+  switch (Conclusion){
     case NotFound:
-      cout << "Chave de registro não encontrada" << endl;
+      return "Chave de registro não encontrada.";
+      break;    
+    case RegistroJaExiste:
+      return "Já existe um registro com essa Id. Tente novamente.";
       break;
     case ListaCheia:
-      cout << "Operação não realizada. Lista cheia" << endl;
+      return "Operação não realizada. Lista cheia.";
       break;
     case ListaVazia:
-      cout << "Operação não realizada. Lista Vazia" << endl;
+      return "Operação não realizada. Lista Vazia.";
+      break;
+    case Success:
+      return "Operação realizada com sucesso.";
   }
-
 }
 
 int Read(int Key){
-  int i = 1;
-  Lista[n+1].Id = Key;
-  for (; Lista[i].Id != Key; i++){
-    continue;
+  if (n>0){
+    int i = 1;
+    Lista[n+1].Id = Key;
+    for (; Lista[i].Id != Key; i++){
+      continue;
+    }
+    if (i != n+1) return i;
   }
-  if (i != n+1)   return i;
-  else            return 0;
+  return 0;
 }
 
-void Create(int Key, string Input){
+OpConclusions Create(int Key, int Input){
   if (n < m){
     if (Read(Key) == NotFound){
       Lista[n+1].Id = Key;
-      Lista[n+1].Nome = Input;
+      Lista[n+1].Info = Input;
       n++;
-      cout << OpSuccess << endl;
+      return Success;
     }
-    else ReportError(RegistroJaExiste);
+    else return RegistroJaExiste;
   }
-  else ReportError(ListaCheia);
+  else return ListaCheia;
 }
 
-void Update(int Key, string Input){
+OpConclusions Update(int Key, int Input){
   int Id = Read(Key);
   if (n>0){
     if (Read(Key) != NotFound){
-    Lista[Id].Nome = Input;
-    cout << OpSuccess << endl;
+    Lista[Id].Info = Input;
+    return Success;
     }
-    else ReportError(NotFound);
+    else return NotFound;
   }
-  else ReportError(ListaVazia);
+  else return ListaVazia;
 }
 
-void Delete(int Key){
+OpConclusions Delete(int Key){
   int Id = Read(Key);
   if (n > 0){
     if (Read(Key) != NotFound){
@@ -78,20 +81,31 @@ void Delete(int Key){
         Lista[i] = Lista[i+1];
       }
       n--;
-      cout << OpSuccess << endl;
+      return Success;
     }
-    else
-      ReportError(NotFound);
+    else return NotFound;
   }
-  else ReportError(ListaVazia);
+  else return ListaVazia;
+}
+
+OpConclusions Listagem(){
+  if (n>0){
+    for (int i=1; i<=n; i++){
+      cout << "ID do Registro: " << Lista[i].Id << "\nInfo: " << Lista[i].Info << endl;
+    }
+    return Success;
+  }
+  else return ListaVazia;
+  sleep(n); 
 }
 
 bool Menu(){
+  enum opcoes {Buscar = 1, Inserir, Excluir, Atualizar, Listar, Abandonar};
+  int temp;
   int opCrud;
-  int chaveUsuario; string nomeUsuario;
-  enum opcoes {Buscar = 1, Inserir, Excluir, Atualizar, Abandonar}; 
+  int chaveUsuario, InfoUsuario; 
   string MSG = "";
-  const string MENU_OPTIONS = "Listas Lineares Não Ordenadas\n\nEscolha sua opção: \n1.Buscar\n2.Inserir\n3.Excluir\n4.Atualizar\n5.Deixar programa\n\nDigite aqui: ";
+  const string MENU_OPTIONS = "Listas Lineares Não Ordenadas\n\nEscolha sua opção: \n1.Buscar\n2.Inserir\n3.Excluir\n4.Atualizar\n5.Listar Registros\n6.Deixar programa\n\nDigite aqui: ";
   cout << MENU_OPTIONS;
   cin >> opCrud;
   switch (opCrud){
@@ -99,28 +113,32 @@ bool Menu(){
       cout << headerline << endl << "MENU BUSCAR\nQual o número da chave do registro? " ; 
       cin >> chaveUsuario;
       if (Read(chaveUsuario) != NotFound){
-        cout << "ID do Registro: " << chaveUsuario << "\nNome: " << Lista[Read(chaveUsuario)].Nome << endl;
+        cout << "ID do Registro: " << chaveUsuario << "\nInfo: " << Lista[Read(chaveUsuario)].Info << endl;
       }
-      else ReportError(NotFound);
+      else cout << ReportConclusion(NotFound) << endl;
       break;
     case Inserir:
       cout << headerline << endl << "MENU INSERIR\nCrie uma chave para o novo dado: ";
       cin >> chaveUsuario;
       cout << "Qual o dado a ser inserido nessa chave? ";
-      cin >> nomeUsuario;
-      Create(chaveUsuario, nomeUsuario);
-      break; 
+      cin >> InfoUsuario;
+      cout << ReportConclusion(Create(chaveUsuario, InfoUsuario)) << endl;
+      break;
     case Excluir:
       cout << headerline << endl << "MENU EXCLUIR\nQual a chave do dado que deve ser excluído? ";
       cin >> chaveUsuario;
-      Delete(chaveUsuario);
+      cout << ReportConclusion(Delete(chaveUsuario)) << endl;
       break;
     case Atualizar:
       cout << headerline << endl << "MENU ATUALIZAR\nQual a chave do dado a ser atualizado? ";
       cin >> chaveUsuario;
       cout << "Qual o novo valor a ser inserido? ";
-      cin >> nomeUsuario;
-      Update(chaveUsuario, nomeUsuario);
+      cin >> InfoUsuario;
+      cout << ReportConclusion(Update(chaveUsuario, InfoUsuario)) << endl;
+      break;
+    case Listar:
+      cout << headerline << endl << "MENU LISTAR\n" << endl;
+      cout << ReportConclusion(Listagem()) << endl;
       break;
     case Abandonar:
       system("clear");
