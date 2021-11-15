@@ -76,3 +76,18 @@ OpConclusions Update(int Key, int Input){
   }
   else return ListaVazia;
 }
+
+OpConclusions Delete(int Key){
+  int Id = Read(Key);
+  if (n > 0){
+    if (Read(Key) != NotFound){
+      for (int i = Id; i<n ; i++){
+        Lista[i] = Lista[i+1];
+      }
+      n--;
+      return Success;
+    }
+    else return NotFound;
+  }
+  else return ListaVazia;
+}
