@@ -96,7 +96,7 @@ OpConclusions Listagem(){
     return Success;
   }
   else return ListaVazia;
-  sleep(n); 
+  sleep(n*3); 
 }
 
 bool Menu(){
