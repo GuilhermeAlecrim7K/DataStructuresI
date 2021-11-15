@@ -71,7 +71,7 @@ It cycles through the data structures accordingly looking for the key.
 
 ##### Return
 
-- Returns `1` if Key was found.
+- Returns the position of the array element if and where Key was found.
 - Returns `0` if Key was not found or if list is empty
 
 #### 2. Create 
