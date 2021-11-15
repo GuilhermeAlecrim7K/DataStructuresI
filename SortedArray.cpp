@@ -47,3 +47,20 @@ int Read(int Key){
   }
   return 0;
 }
+
+OpConclusions Create(int Key, int Input){
+  int i;
+  if (n < m){
+    if (Read(Key) == NotFound){
+      for (i = n; i>0 and Lista[i].Id>Key; i--){
+        Lista[i+1] = Lista[i];  
+      }
+      Lista[i+1].Id = Key;
+      Lista[i+1].Info = Input;
+      n++;
+      return Success;
+    }
+    else return RegistroJaExiste;
+  }
+  else return ListaCheia;
+}
