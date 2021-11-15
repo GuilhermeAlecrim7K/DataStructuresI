@@ -13,7 +13,7 @@ struct Dados{
   int Info;
 };
 
-struct Dados* HeadPointer, PreviousPointer, ResultPointer;
+struct Dados *HeadPointer, *PreviousPointer, *ResultPointer;
 
 enum OpConclusions {NotFound, RegistroJaExiste, ListaCheia, ListaVazia, Success};
 const string headerline = "=============================";
@@ -37,8 +37,26 @@ string ReportConclusion(OpConclusions Conclusion){
   }
 }
 
-int Read(int Key){
-
+OpConclusions Read(int Key){
+  struct Dados *AuxPtr = HeadPointer->Next;
+  PreviousPointer = HeadPointer;
+  ResultPointer = NULL;
+  if (HeadPointer->Next != NULL){
+    while (AuxPtr != NULL){
+      if (AuxPtr->Id < Key){
+        PreviousPointer = AuxPtr;
+        AuxPtr = AuxPtr->Next;
+      }
+      else {
+        if (AuxPtr->Id == Key){
+        ResultPointer = AuxPtr;
+        return Success;
+        }
+        return NotFound;
+      }
+    }
+  }
+  return ListaVazia;
 }
 
 OpConclusions Create(int Key, int Input){
@@ -69,7 +87,7 @@ bool Menu(){
       cout << headerline << endl << "MENU BUSCAR\nQual o número da chave do registro? " ; 
       cin >> chaveUsuario;
       if (Read(chaveUsuario) != NotFound){
-        cout << "ID do Registro: " << chaveUsuario << "\nInfo: " << ResultPointer.Info << endl;
+        cout << "ID do Registro: " << chaveUsuario << "\nInfo: " << ResultPointer->Info << endl;
       }
       else cout << ReportConclusion(NotFound) << endl;
       break;
