@@ -64,3 +64,15 @@ OpConclusions Create(int Key, int Input){
   }
   else return ListaCheia;
 }
+
+OpConclusions Update(int Key, int Input){
+  int Id = Read(Key);
+  if (n>0){
+    if (Read(Key) != NotFound){
+      Lista[Id].Info = Input;
+      return Success;
+    }
+    else return NotFound;
+  }
+  else return ListaVazia;
+}
