@@ -35,3 +35,15 @@ string ReportConclusion(OpConclusions Conclusion){
       return "Operação realizada com sucesso.";
   }
 }
+
+int Read(int Key){
+  if (n>0){
+    int i = 1;
+    Lista[n+1].Id = Key;
+    for (; Lista[i].Id < Key; i++){
+      continue;
+    }
+    if (i != n+1 and Lista[i].Id == Key) return 1;
+  }
+  return 0;
+}
