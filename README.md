@@ -12,13 +12,19 @@ This being a practical application of the contents studied by me, the algorithms
     1. [Includes](#includes)
     2. [Global Variables](#global-variables)
 2. [Functions and Procedures](#functions-and-procedures)
-    1. [Crudl](#crudl)
+    1. [Crudl in arrays](#1-crudl-in-arrays)
         1. [Read](#1-read)
         2. [Create](#2-create)
         3. [Update](#3-update)
         4. [Delete](#4-delete)
         5. [List](#5-list)
-    2. [Menu](#menu)
+    2. [Crudl in linked lists](#crudl-in-linked-lists)
+        1. [Read](#1-read)
+        2. [Create](#2-create)
+        3. [Update](#3-update)
+        4. [Delete](#4-delete)
+        5. [List](#5-list) 
+    4. [Menu](#menu)
 
 ## Code definitions
 
@@ -42,24 +48,35 @@ The standard libraries for I/O and a conditional to allow users to be able to us
 
         int m;
 
-- An enumerated type to report the conclusion of the functions (OpConclusions)
+- An enumerated type to report the conclusion of the functions `OpConclusions`
 
         enum OpConclusions {NotFound, RegistroJaExiste, ListaCheia, ListaVazia, Success};
 
 #### Linked List
 
-- A pointer to a structured type
-- An integer to control the amount of items in the list (n)
-- An integer to indicate the last possible element of the list (m)
-- An enumerated type to report the conclusion of the functions (OpConclusions)
+- A pointer to the head of the list of structured types
+
+        struct Dados *HeadPointer;
+        
+- A pointer to hold the position of the previous element in the `Read` function
+
+        struct Dados *Previous Pointer;
+
+- A pointer to hold the position of the Result of the `Read` function
+
+        struct Dados *ResultPointer
+
+- An enumerated type to report the conclusion of the functions `OpConclusions`
+
+        enum OpConclusions {NotFound, RegistroJaExiste, ListaCheia, ListaVazia, Success};
 
 ## Functions and Procedures
 
-### Crudl
+### 1. Crudl in arrays
 
 #### 1. Read
 
-`int Read (int Key){...}`  
+        int Read (int Key){...}
 
 ##### Parameters
 
@@ -67,7 +84,7 @@ The standard libraries for I/O and a conditional to allow users to be able to us
 
 ##### Procedure
 
-It cycles through the data structures accordingly looking for the key.
+It cycles through the data structure accordingly looking for the key.
 
 ##### Return
 
@@ -76,7 +93,7 @@ It cycles through the data structures accordingly looking for the key.
 
 #### 2. Create 
 
-`OpConclusions Create(int Key, int Input){...}`
+        OpConclusions Create(int Key, int Input){...}
 
 ##### Parameters
 
@@ -98,7 +115,7 @@ Always returns an enum `OpConclusions` depending on the outcome
 
 #### 3. Update 
 
-`OpConclusions Update(int Key, int Input){...}`
+        OpConclusions Update(int Key, int Input){...}
 
 ##### Parameters
 
@@ -120,7 +137,7 @@ Always returns an enum OpConclusions depending on the outcome
 
 #### 4. Delete 
 
-`OpConclusions Delete(int Key){...}`
+        OpConclusions Delete(int Key){...}
 
 ##### Parameters
 
@@ -141,7 +158,7 @@ Always returns an enum OpConclusions depending on the outcome
 
 #### 5. List
 
-`OpConclusions Listagem()`
+        OpConclusions Listagem(){...}
 
 ##### Parameters
 
@@ -159,9 +176,112 @@ Always returns an enum OpConclusions depending on the outcome
 - Returns `ListaVazia` if the list is empty
 - Returns `Success` if the listing was completed
 
+### Crudl in linked lists
+
+#### 1. Read
+
+        OpConclusions Read (int Key){...}
+
+##### Parameters
+
+- An integer `Key`
+
+##### Procedure
+
+It cycles through the data structure accordingly looking for the key.
+
+##### Return
+
+- Returns `Success` if key was found
+- Returns `NotFound` if Key was not found 
+- Returns `ListaVazia` if list is empty
+
+#### 2. Create 
+
+        OpConclusions Create(int Key, int Input){...}
+
+##### Parameters
+
+- An integer `Key`
+- An integer to represent the data to be inserted in the array element `Input`
+
+##### Procedure
+
+1. It calls the `Read` function to check if there is already a Key with the same value
+2. Inserts the element accordingly.
+
+##### Return
+
+Always returns an enum `OpConclusions` depending on the outcome
+- Returns `RegistroJaExiste` if there is already a Key with the same value
+- Returns `Success` if the insertion was completed
+
+#### 3. Update 
+
+        OpConclusions Update(int Key, int Input){...}
+
+##### Parameters
+
+- An integer `Key`
+- An integer to represent the data to be updated in the array element `Input`
+
+##### Procedure
+
+1. It checks if the list is empty
+2. It calls the `Read` function to check if there is a Key with the same value
+3. Updates the element accordingly
+
+##### Return
+
+Always returns an enum OpConclusions depending on the outcome
+- Returns `ListaVazia` if the list is empty
+- Returns `NotFound` if there isn't a Key with the same value
+- Returns `Success` if the update was completed
+
+#### 4. Delete 
+
+        OpConclusions Delete(int Key){...}
+
+##### Parameters
+
+- An integer `Key`
+
+##### Procedure
+
+1. It checks if the list is empty
+2. It calls the `Read` function to check if there is a Key with the same value
+3. Deletes the element accordingly
+
+##### Return
+
+Always returns an enum OpConclusions depending on the outcome
+- Returns `ListaVazia` if the list is empty
+- Returns `NotFound` if there isn't a Key with the same value
+- Returns `Success` if the deletion was completed
+
+#### 5. List
+
+        OpConclusions Listagem(){...}
+
+##### Parameters
+
+None
+
+##### Procedure
+
+1. It checks if the list is empty
+2. It prints on console the Keys and Data in the list
+3. Puts the console to sleep for a `second` amount of seconds so that users can read the list
+
+##### Return
+
+Always returns an enum OpConclusions depending on the outcome
+- Returns `ListaVazia` if the list is empty
+- Returns `Success` if the listing was completed
+
 ### Menu
 
-`bool Menu(){...}`
+        bool Menu(){...}
 
 ##### Parameters
 
