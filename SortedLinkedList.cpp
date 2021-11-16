@@ -15,7 +15,7 @@ struct Dados{
 
 struct Dados *HeadPointer, *PreviousPointer, *ResultPointer;
 
-enum OpConclusions {NotFound, RegistroJaExiste, ListaCheia, ListaVazia, Success};
+enum OpConclusions {NotFound, RegistroJaExiste, ListaVazia, Success};
 const string headerline = "=============================";
 
 string ReportConclusion(OpConclusions Conclusion){
@@ -25,9 +25,6 @@ string ReportConclusion(OpConclusions Conclusion){
       break;    
     case RegistroJaExiste:
       return "Já existe um registro com essa Id. Tente novamente.";
-      break;
-    case ListaCheia:
-      return "Operação não realizada. Lista cheia.";
       break;
     case ListaVazia:
       return "Operação não realizada. Lista Vazia.";
@@ -87,7 +84,15 @@ OpConclusions Update(int Key, int Input){
 }
 
 OpConclusions Delete(int Key){
-
+  if (HeadPointer->Next != NULL){
+    if (Read(Key) == Success){
+      PreviousPointer->Next = ResultPointer->Next;
+      delete ResultPointer;
+      return Success;
+    }
+    else return NotFound;
+  }
+  else return ListaVazia;
 }
 
 OpConclusions Listagem(){
