@@ -76,7 +76,14 @@ OpConclusions Create(int Key, int Input){
 }
 
 OpConclusions Update(int Key, int Input){
-
+  if (HeadPointer->Next != NULL){
+    if (Read(Key) == Success){
+      ResultPointer->Info = Input;
+      return Success;
+    }
+    else return NotFound;
+  }
+  else return ListaVazia;
 }
 
 OpConclusions Delete(int Key){
