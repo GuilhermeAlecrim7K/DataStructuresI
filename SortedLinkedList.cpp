@@ -47,20 +47,32 @@ OpConclusions Read(int Key){
         PreviousPointer = AuxPtr;
         AuxPtr = AuxPtr->Next;
       }
-      else {
-        if (AuxPtr->Id == Key){
+      else if (AuxPtr->Id == Key){
         ResultPointer = AuxPtr;
         return Success;
-        }
-        return NotFound;
       }
+      return NotFound;
     }
+    return NotFound;
   }
-  return ListaVazia;
+  else return ListaVazia;
 }
 
 OpConclusions Create(int Key, int Input){
-
+  struct Dados *AuxPointer;
+  if (HeadPointer->Next == NULL){
+    if (Read(Key) == NotFound){
+      ResultPointer = new struct Dados;
+      AuxPointer = PreviousPointer->Next;
+      PreviousPointer->Next = ResultPointer;
+      ResultPointer->Next = AuxPointer;
+      ResultPointer->Id = Key;
+      ResultPointer->Info = Input;
+      return Success;
+    }
+    else return RegistroJaExiste;
+  }
+  else return ListaVazia;
 }
 
 OpConclusions Update(int Key, int Input){
