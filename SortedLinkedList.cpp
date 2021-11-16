@@ -48,7 +48,7 @@ OpConclusions Read(int Key){
         ResultPointer = AuxPtr;
         return Success;
       }
-      return NotFound;
+      else return NotFound;
     }
     return NotFound;
   }
@@ -57,19 +57,16 @@ OpConclusions Read(int Key){
 
 OpConclusions Create(int Key, int Input){
   struct Dados *AuxPointer;
-  if (HeadPointer->Next == NULL){
-    if (Read(Key) == NotFound){
-      ResultPointer = new struct Dados;
-      AuxPointer = PreviousPointer->Next;
-      PreviousPointer->Next = ResultPointer;
-      ResultPointer->Next = AuxPointer;
-      ResultPointer->Id = Key;
-      ResultPointer->Info = Input;
-      return Success;
-    }
-    else return RegistroJaExiste;
+  if (Read(Key) != Success){
+    ResultPointer = new struct Dados;
+    AuxPointer = PreviousPointer->Next;
+    PreviousPointer->Next = ResultPointer;
+    ResultPointer->Next = AuxPointer;
+    ResultPointer->Id = Key;
+    ResultPointer->Info = Input;
+    return Success;
   }
-  else return ListaVazia;
+  else return RegistroJaExiste;
 }
 
 OpConclusions Update(int Key, int Input){
@@ -96,13 +93,25 @@ OpConclusions Delete(int Key){
 }
 
 OpConclusions Listagem(){
-
+  int seconds = 0;
+  if (HeadPointer->Next != NULL){
+    ResultPointer = HeadPointer->Next;
+    while (ResultPointer != NULL){
+      cout << "Chave: " << ResultPointer->Id << endl << "Info: " << ResultPointer->Info << endl;
+      ResultPointer = ResultPointer->Next;
+      seconds++;
+    }
+    sleep(seconds);
+    return Success;
+  }
+  else return ListaVazia;
 }
 
 bool Menu(){
   enum opcoes {Buscar = 1, Inserir, Excluir, Atualizar, Listar, Abandonar};
   int opCrud;
-  int chaveUsuario, InfoUsuario; 
+  int chaveUsuario, InfoUsuario;
+  OpConclusions result; 
   const string MENU_OPTIONS = "Listas Lineares Não Ordenadas\n\nEscolha sua opção: \n1.Buscar\n2.Inserir\n3.Excluir\n4.Atualizar\n5.Listar Registros\n6.Deixar programa\n\nDigite aqui: ";
   cout << MENU_OPTIONS;
   cin >> opCrud;
@@ -110,10 +119,11 @@ bool Menu(){
     case Buscar:
       cout << headerline << endl << "MENU BUSCAR\nQual o número da chave do registro? " ; 
       cin >> chaveUsuario;
-      if (Read(chaveUsuario) != NotFound){
+      result = Read(chaveUsuario);
+      if (result == Success){
         cout << "ID do Registro: " << chaveUsuario << "\nInfo: " << ResultPointer->Info << endl;
       }
-      else cout << ReportConclusion(NotFound) << endl;
+      else cout << ReportConclusion(result) << endl;
       break;
     case Inserir:
       cout << headerline << endl << "MENU INSERIR\nCrie uma chave para o novo dado: ";
@@ -136,7 +146,10 @@ bool Menu(){
       break;
     case Listar:
       cout << headerline << endl << "MENU LISTAR\n" << endl;
-      cout << ReportConclusion(Listagem()) << endl;
+      result = Listagem();
+      if (result != Success){
+        cout << ReportConclusion(result) << endl;
+      }
       break;
     case Abandonar:
       system("clear");
