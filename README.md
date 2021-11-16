@@ -19,11 +19,11 @@ This being a practical application of the contents studied by me, the algorithms
         4. [Delete](#4-delete)
         5. [List](#5-list)
     2. [Crudl in linked lists](#crudl-in-linked-lists)
-        1. [Read](#1-read)
-        2. [Create](#2-create)
-        3. [Update](#3-update)
-        4. [Delete](#4-delete)
-        5. [List](#5-list) 
+        1. [Read](#1-read-1)
+        2. [Create](#2-create-1)
+        3. [Update](#3-update-1)
+        4. [Delete](#4-delete-1)
+        5. [List](#5-list-1) 
     4. [Menu](#menu)
 
 ## Code definitions
