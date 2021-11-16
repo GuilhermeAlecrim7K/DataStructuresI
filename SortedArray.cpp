@@ -12,7 +12,7 @@ struct Dados{
   int Info;
 };
 
-struct Dados Lista[7];
+struct Dados Lista[6];
 int n = 0, m = 5;
 enum OpConclusions {NotFound, RegistroJaExiste, ListaCheia, ListaVazia, Success};
 const string headerline = "=============================";
@@ -38,12 +38,17 @@ string ReportConclusion(OpConclusions Conclusion){
 
 int Read(int Key){
   if (n>0){
-    int i = 1;
-    Lista[n+1].Id = Key;
-    for (; Lista[i].Id < Key; i++){
-      continue;
+    int low = 1, high = n, middle;
+    while(low <= high){
+      middle = (low + high) / 2;
+      if (Lista[middle].Id == Key){
+        return middle;
+      }
+      else if (Lista[middle].Id < Key){
+        low = middle + 1;
+      }
+      else high = middle -1;
     }
-    if (i != n+1 and Lista[i].Id == Key) return i;
   }
   return 0;
 }
