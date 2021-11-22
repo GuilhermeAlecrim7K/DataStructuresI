@@ -1,4 +1,4 @@
-# DataStructuresI
+# Data Structures I
 
 The purpose of this repository is to practice skills related to Data Structures. The algorithms created are intended to work on Linear Lists, such as Arrays and Linked Lists of structured types. The idea for the DataStructuresI repository came from a course I'm taking in college by the same name. As I progress on the subject, more implementations and applications will be developed and inserted into this repository.
 
@@ -6,35 +6,53 @@ The purpose of this repository is to practice skills related to Data Structures.
 
 This being a practical application of the contents studied by me, the algorithms are going to stick to the basics, seeking memory optimization and capacity to import to other languages, etc. This is an attempt to both use this as a project for this subject and also future applications in other areas/fields.
 
-## Index
+# Index
 
-1. [Code Definitions](#code-definitions)
-    1. [Includes](#includes)
-    2. [Global Variables](#global-variables)
-2. [Functions and Procedures](#functions-and-procedures)
-    1. [Crudl in arrays](#1-crudl-in-arrays)
-        1. [Read](#1-read)
-        2. [Create](#2-create)
-        3. [Update](#3-update)
-        4. [Delete](#4-delete)
-        5. [List](#5-list)
-    2. [Crudl in linked lists](#crudl-in-linked-lists)
-        1. [Read](#1-read-1)
-        2. [Create](#2-create-1)
-        3. [Update](#3-update-1)
-        4. [Delete](#4-delete-1)
-        5. [List](#5-list-1) 
-    4. [Menu](#menu)
+1. [Shared Characteristics](#shared-characteristics)
+    1. [Enumerated Type](#enumerated-type)
+    2. [ReportConclusion function](#reportconclusion-function)
+    3. [Menu](#menu)
+2. [Unsorted and sorted arrays](#1-unsorted-and-sorted-arrays)
+3. [Linked List (Sorted)](#2-linked-list-sorted)
+4. [Stack](#3-stack)
+5. [Queue](#4-queue)
 
-## Code definitions
+# Shared characteristics
+
+The following items are present in all five algorithms
 
 ### Includes
 
 The standard libraries for I/O and a conditional to allow users to be able to use the sleep() function.
 
-### Global Variables
+### Enumerated Type
 
-#### Array
+        enum OpConclusions{...}
+
+### ReportConclusion function
+
+        string ReportConclusion(OpConclusions Conclusion){...}
+        
+Returns a string that indicates the state of conclusion of the functions in the algorithms.
+
+### Menu
+
+        bool Menu(){...}
+
+#### Procedure
+
+1. Lists all possible options
+2. Asks for user input on options
+3. Calls function according to user's input
+
+#### Return
+
+- Returns false if user chooses any of the accepted crudl operations or a value beyond the scope of the operations
+- Returns true if user chooses to abandon program
+
+# 1. Unsorted and Sorted Arrays
+
+## Global Variables
 
 - A structured type array
 
@@ -47,32 +65,10 @@ The standard libraries for I/O and a conditional to allow users to be able to us
 - An integer to indicate the last possible element of the list
 
         int m;
-
-- An enumerated type to report the conclusion of the functions `OpConclusions`
-
-        enum OpConclusions {NotFound, RegistroJaExiste, ListaCheia, ListaVazia, Success};
-
-#### Linked List
-
-- A pointer to the head of the list of structured types
-
-        struct Dados *HeadPointer;
         
-- A pointer to hold the position of the previous element in the `Read` function
-
-        struct Dados *Previous Pointer;
-
-- A pointer to hold the position of the Result of the `Read` function
-
-        struct Dados *ResultPointer
-
-- An enumerated type to report the conclusion of the functions `OpConclusions`
-
-        enum OpConclusions {NotFound, RegistroJaExiste, ListaCheia, ListaVazia, Success};
-
 ## Functions and Procedures
 
-### 1. Crudl in arrays
+### Crudl
 
 #### 1. Read
 
@@ -160,10 +156,6 @@ Always returns an enum OpConclusions depending on the outcome
 
         OpConclusions Listagem(){...}
 
-##### Parameters
-
-None
-
 ##### Procedure
 
 1. It checks if the list is empty
@@ -175,6 +167,24 @@ None
 Always returns an enum OpConclusions depending on the outcome
 - Returns `ListaVazia` if the list is empty
 - Returns `Success` if the listing was completed
+
+# 2. Linked List (Sorted)
+
+## Global Variables
+
+- A pointer to the head of the list of structured types
+
+        struct Dados *HeadPointer;
+        
+- A pointer to hold the position of the previous element in the `Read` function
+
+        struct Dados *Previous Pointer;
+
+- A pointer to hold the position of the Result of the `Read` function
+
+        struct Dados *ResultPointer
+
+## Functions and procedures
 
 ### Crudl in linked lists
 
@@ -263,10 +273,6 @@ Always returns an enum OpConclusions depending on the outcome
 
         OpConclusions Listagem(){...}
 
-##### Parameters
-
-None
-
 ##### Procedure
 
 1. It checks if the list is empty
@@ -275,25 +281,119 @@ None
 
 ##### Return
 
-Always returns an enum OpConclusions depending on the outcome
 - Returns `ListaVazia` if the list is empty
 - Returns `Success` if the listing was completed
 
-### Menu
+# 3. Stack
 
-        bool Menu(){...}
+## Global Variables
 
-##### Parameters
+- A pointer to the top of the stack
 
-None
+        struct Dados *Top = NULL;
+
+- A variable to limit the amount of items in the stack
+
+        int StackLimit = 10;
+
+- A variable to count the items in the stack
+
+        int StackCounter = 0;
+
+## Functions and procedures
+
+#### 1. PopLast
+
+        void PopLast(){...}
 
 ##### Procedure
 
-1. Lists all possible options
-2. Asks for user input on options
-3. Calls function corresponding the input
+1. Cycles through the stack until the last item is found
+2. Removes the last item from the stack
+
+#### 2. Push
+
+        OpConclusions Push(int Input){...}
+
+##### Parameters
+
+- An integer `Input`
+
+##### Procedure
+
+- Checks if Stack Limit has been met
+  - If so, calls `PopLast()` to remove the item at the bottom of the stack
+- Inserts the new item at the top of the stack
 
 ##### Return
 
-- Returns false if user chooses any of the accepted crudl operations or a value beyond the scope of the operations
-- Returns true if user chooses to abandon program
+- Always returns `Success`
+
+#### 3. Pop
+
+        OpConclusions Pop(){...}
+
+##### Procedure
+
+- Checks if stack is empty
+- Removes the item at the top of the list
+
+##### Returns
+
+- `Pilha Vazia` if the stack is empty
+- `Success` if the procedure was done
+
+#### 4. List
+
+##### Procedure
+
+- Checks if stack is empty
+- Cycles through all the items in the stack, printing them on console
+
+# 4. Queue
+
+## Global Variables
+
+- A pointer to the first item of the queue
+
+        struct Dados *First = NULL;
+        
+- A pointer to the last item of the queue
+
+        struct Dados *Last = NULL;
+
+## Functions and procedures
+
+#### 1. Enqueue
+
+##### Parameters
+
+- An integer `Input` to be inserted in the queue
+
+##### Procedure
+
+- Checks if queue is empty
+- Inserts the item at the end of the queue
+
+##### Return
+
+- Always returns `Success`
+
+#### 2. Dequeue
+
+##### Procedure
+
+- Checks if the queue is empty
+- Removes the first item in queue
+
+##### Returns
+
+- Returns `EmptyQueue` if queue is empty
+- Returns `Sucess` if item is removed
+
+#### 4. List
+
+##### Procedure
+
+- Checks if stack is empty
+- Cycles through all the items in the queue, printing them on console
